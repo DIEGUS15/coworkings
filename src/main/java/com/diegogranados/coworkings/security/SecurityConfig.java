@@ -38,6 +38,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
                                                 .requestMatchers("/api/sedes/**").hasRole("ADMIN")
                                                 .requestMatchers("/api/registros/**").hasRole("OPERADOR")
+                                                .requestMatchers("/api/indicadores/**").authenticated()
                                                 .anyRequest().authenticated())
 
                                 .sessionManagement(session -> session
