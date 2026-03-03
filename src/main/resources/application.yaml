@@ -3,9 +3,9 @@ spring:
     name: coworkings
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/coworkings}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:}
+    url: jdbc:postgresql://localhost:5432/coworkings
+    username: postgres
+    password: Ab12345678.
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -20,5 +20,5 @@ spring:
 application:
   security:
     jwt:
-      secret-key: ${JWT_SECRET:Y293b3JraW5nc0FwcEBTZWNyZXRLZXkyMDI2IWNvd29ya2luZ3M=}
-      expiration: ${JWT_EXPIRATION:21600000}
+      secret-key: Y293b3JraW5nc0FwcEBTZWNyZXRLZXkyMDI2IWNvd29ya2luZ3M=
+      expiration: 21600000

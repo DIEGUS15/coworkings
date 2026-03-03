@@ -19,30 +19,33 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final CustomAccessDeniedHandler accessDeniedHandler;
-    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+        private final JwtAuthenticationFilter jwtAuthFilter;
+        private final AuthenticationProvider authenticationProvider;
+        private final CustomAccessDeniedHandler accessDeniedHandler;
+        private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(AbstractHttpConfigurer::disable)
 
-                .exceptionHandling(ex -> ex
-                        .accessDeniedHandler(accessDeniedHandler)
-                        .authenticationEntryPoint(authenticationEntryPoint))
+                                .exceptionHandling(ex -> ex
+                                                .accessDeniedHandler(accessDeniedHandler)
+                                                .authenticationEntryPoint(authenticationEntryPoint))
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
+                                                .requestMatchers("/api/sedes/**").hasRole("ADMIN")
+                                                .requestMatchers("/api/registros/**").hasRole("OPERADOR")
+                                                .anyRequest().authenticated())
 
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authenticationProvider(authenticationProvider)
 
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 }

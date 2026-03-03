@@ -46,6 +46,42 @@ public class GlobalExceptionHandler {
                                 .body(buildErrorBody(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI()));
         }
 
+        @ExceptionHandler(SedeNotFoundException.class)
+        public ResponseEntity<Map<String, Object>> handleSedeNotFound(
+                        SedeNotFoundException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(buildErrorBody(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(SedeNombreDuplicadoException.class)
+        public ResponseEntity<Map<String, Object>> handleSedeNombreDuplicado(
+                        SedeNombreDuplicadoException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(buildErrorBody(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(SedeDireccionDuplicadaException.class)
+        public ResponseEntity<Map<String, Object>> handleSedeDireccionDuplicada(
+                        SedeDireccionDuplicadaException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(buildErrorBody(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(OperadorNoEncontradoException.class)
+        public ResponseEntity<Map<String, Object>> handleOperadorNoEncontrado(
+                        OperadorNoEncontradoException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(buildErrorBody(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI()));
+        }
+
         @ExceptionHandler(BadCredentialsException.class)
         public ResponseEntity<Map<String, Object>> handleBadCredentials(
                         BadCredentialsException ex,
@@ -75,6 +111,60 @@ public class GlobalExceptionHandler {
                                 .body(buildErrorBody(HttpStatus.FORBIDDEN,
                                                 "No tienes permisos para realizar esta acción",
                                                 request.getRequestURI()));
+        }
+
+        @ExceptionHandler(PersonaConIngresoActivoException.class)
+        public ResponseEntity<Map<String, Object>> handlePersonaConIngresoActivo(
+                        PersonaConIngresoActivoException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(buildErrorBody(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(SedeCapacidadExcedidaException.class)
+        public ResponseEntity<Map<String, Object>> handleSedeCapacidadExcedida(
+                        SedeCapacidadExcedidaException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(buildErrorBody(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(IngresoActivoNoEncontradoException.class)
+        public ResponseEntity<Map<String, Object>> handleIngresoActivoNoEncontrado(
+                        IngresoActivoNoEncontradoException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(buildErrorBody(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(OperadorNoAsignadoASedeException.class)
+        public ResponseEntity<Map<String, Object>> handleOperadorNoAsignadoASede(
+                        OperadorNoAsignadoASedeException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body(buildErrorBody(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(IllegalArgumentException.class)
+        public ResponseEntity<Map<String, Object>> handleIllegalArgument(
+                        IllegalArgumentException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(buildErrorBody(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI()));
+        }
+
+        @ExceptionHandler(IllegalStateException.class)
+        public ResponseEntity<Map<String, Object>> handleIllegalState(
+                        IllegalStateException ex,
+                        HttpServletRequest request) {
+
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(buildErrorBody(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
         }
 
         @ExceptionHandler(Exception.class)
