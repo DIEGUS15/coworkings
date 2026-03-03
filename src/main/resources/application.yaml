@@ -22,6 +22,3 @@ application:
     jwt:
       secret-key: ${JWT_SECRET:Y293b3JraW5nc0FwcEBTZWNyZXRLZXkyMDI2IWNvd29ya2luZ3M=}
       expiration: ${JWT_EXPIRATION:21600000}
-
-
-
