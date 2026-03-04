@@ -7,6 +7,7 @@ import com.diegogranados.coworkings.entity.*;
 import com.diegogranados.coworkings.exception.*;
 import com.diegogranados.coworkings.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ public class RegistroAccesoService {
         private final PersonaRepository personaRepository;
         private final SedeRepository sedeRepository;
         private final UserRepository userRepository;
+        @Lazy
+        private final CuponFidelidadService cuponFidelidadService;
 
         @Transactional
         public RegistroAccesoResponse registrarIngreso(IngresoRequest request, String emailOperador) {
@@ -96,7 +99,14 @@ public class RegistroAccesoService {
                 registro.setEstado(EstadoRegistro.COMPLETADO);
                 registro.setOperadorSalida(operador);
 
-                return toResponse(registroAccesoRepository.save(registro));
+                RegistroAcceso registroGuardado = registroAccesoRepository.save(registro);
+
+                cuponFidelidadService.evaluarYOtorgarCupon(
+                                registroGuardado.getPersona(),
+                                registroGuardado.getSede(),
+                                operador.getEmail());
+
+                return toResponse(registroGuardado);
         }
 
         @Transactional(readOnly = true)
